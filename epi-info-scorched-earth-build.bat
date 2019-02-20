@@ -28,7 +28,6 @@ IF EXIST ".\Epi-Info-Community-Edition" (
 
 :SKIP_DELETE
 
-ECHO ON
 COLOR 
 
 SET /P o=OVERWRITE (GET) EPI INFO FROM GITHUB [Y/N]?
@@ -37,6 +36,8 @@ IF /I "%o%" EQU "N" GOTO :SKIP_GET_SOURCE
 :SKIP_GET_SOURCE
 
 :GET_SOURCE
+
+ECHO
 
 git clone https://github.com/Epi-Info/Epi-Info-Community-Edition.git
 CD Epi-Info-Community-Edition
@@ -53,7 +54,7 @@ REM [COMMENT] [BUILD] 7.2.2.16 11/2/2018
 :SKIP_GET_SOURCE
 
 :UPDATE_VERSION_INFO
-CD Epi-Info-Community-Edition
+::CD Epi-Info-Community-Edition
 
 :: ===============================================================
 :: UPDATE VERSION
@@ -74,34 +75,76 @@ CD Epi-Info-Community-Edition
 :: <Assembly: AssemblyVersion("7.2.2.16")>
 :: <Assembly: AssemblyFileVersion("7.2.2.16")>
 
-CALL code SolutionInfo.cs .\EpiInfoPlugin\Properties\AssemblyInfo.cs ".\StatisticsRepository\My Project\AssemblyInfo.vb"
-
+CALL code -n SolutionInfo.cs .\EpiInfoPlugin\Properties\AssemblyInfo.cs ".\StatisticsRepository\My Project\AssemblyInfo.vb"
+PAUSE
 :: ===============================================================
 :: CHANGE TO RELEASE KEYS
 :: ===============================================================
 :: GET RELEASE KEY VERSION OF ConfigurationStatic.cs
-NET USE M: \\cdc.gov\private\M131\ita3\_EI7\__BUILD REFERENCE__
-:: OPEN IN CODE TO VERIFY ONLY KEYS HAVE CHANGED
-CALL code .\EpiCore\ConfigurationStatic.cs
+COPY /Y "C:\requiredFiles (ei7)\Configuration_Static.cs" .\Epi.Core\Configuration_Static.cs
+::ECHO OPEN IN CODE TO VERIFY ONLY KEYS HAVE CHANGED
+::CALL code -n .\Epi.Core\Configuration_Static.cs
+::PAUSE
 
-NET USE M: /DELETE
+:: ===============================================================
+:: REPLACE THE COMPONENT ART LICENCE
+:: ===============================================================
+COPY /Y "C:\requiredFiles (ei7)\ComponentArt.Win.DataVisualization.lic" .\Epi.Windows.AnalysisDashboard\ComponentArt.Win.DataVisualization.lic
+COPY /Y "C:\requiredFiles (ei7)\ComponentArt.Win.DataVisualization.lic" .\Epi.Windows.Enter\ComponentArt.Win.DataVisualization.lic
+COPY /Y "C:\requiredFiles (ei7)\ComponentArt.Win.DataVisualization.lic" .\EpiDashboard\ComponentArt.Win.DataVisualization.lic
+::ECHO OPEN IN CODE TO VERIFY THE COMPONENT LICENCE HAS CHANGED
+::CALL code -n .\Epi.Windows.AnalysisDashboard\ComponentArt.Win.DataVisualization.lic .\Epi.Windows.Enter\ComponentArt.Win.DataVisualization.lic .\EpiDashboard\ComponentArt.Win.DataVisualization.lic
+CALL code -n .
+PAUSE
+
+:: ===============================================================
+:: COPY DLLS
+:: ===============================================================
+IF NOT EXIST "build" (
+    COLOR
+    MKDIR build
+)
+IF NOT EXIST ".\build\release" (
+    COLOR
+    CD build
+    MKDIR release
+    CD..
+)
+COPY /Y "C:\requiredFiles (ei7)\dll\Epi.Data.PostgreSQL.dll" .\build\release\Epi.Data.PostgreSQL.dll
+COPY /Y "C:\requiredFiles (ei7)\dll\FipsCrypto.dll" .\build\release\FipsCrypto.dll
+COPY /Y "C:\requiredFiles (ei7)\dll\Interop.PortableDeviceApiLib.dll" .\build\release\Interop.PortableDeviceApiLib.dll
+COPY /Y "C:\requiredFiles (ei7)\dll\Interop.PortableDeviceTypesLib.dll" .\build\release\Interop.PortableDeviceTypesLib.dll
+COPY /Y "C:\requiredFiles (ei7)\dll\Mono.Security.dll" .\build\release\Mono.Security.dll
+COPY /Y "C:\requiredFiles (ei7)\dll\Npgsql.dll" .\build\release\Npgsql.dll
+
+::ECHO OPEN IN CODE TO VERIFY THE COMPONENT LICENCE HAS CHANGED
+::CALL code -n .\Epi.Windows.AnalysisDashboard\ComponentArt.Win.DataVisualization.lic .\Epi.Windows.Enter\ComponentArt.Win.DataVisualization.lic .\EpiDashboard\ComponentArt.Win.DataVisualization.lic
+ECHO %CD%
+PAUSE
+
+:: ===============================================================
+:: COPY RELEASE DIRECTORY
+:: ===============================================================
+
+
 
 :: ===============================================================
 ::
 :: ===============================================================
 
-:: ===============================================================
-::
-:: ===============================================================
-
-:: ===============================================================
-::
-:: ===============================================================
 
 
-explorer .
 
-net use X: \\cdc.gov\private\M131\ita3
+
+
+CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" "Epi Info 7.sln"
+PAUSE
+
+
+
+
+::explorer .
+
 
 IF EXIST ".\package-lock.json" (
     ECHO.
