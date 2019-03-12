@@ -144,9 +144,12 @@ PAUSE
 :: https://docs.microsoft.com/en-us/visualstudio/ide/reference/devenv-command-line-switches?view=vs-2017
 :: devenv mysln.sln /build Release /project proj1 /projectconfig Release
 
-CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" "Epi Info 7.sln"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe" "Epi Info 7.sln" /p:Configuration=Release /p:Platform=x86
 PAUSE
 
+git checkout -- *
+git status
+PAUSE
 
 :: ===============================================================
 :: DELETE THEN COPY PROJECT (RELEASE) DIRECTORY
