@@ -1,30 +1,19 @@
-::CLS
+CLS
 @ECHO OFF
 COLOR
+
+setLocal EnableDelayedExpansion
 
 SET EI_KEY_QUIET=Q
 
 SET EI_ARGS=%1
 ECHO EI_ARGS=%EI_ARGS%
 ECHO EI_KEY_QUIET=%EI_KEY_QUIET%
-SET EI_QUIET=TRUE
+SET EI_QUIET=FALSE
 
-setLocal EnableDelayedExpansion
-
-IF NOT "x!EI_ARGS:%EI_KEY_QUIET%=!"=="x%EI_ARGS%" (
-    SET EI_QUIET=TRUE
-    ECHO TR
-) ELSE (
-    SET EI_QUIET=FALSE
-    ECHO FS
-)
-
-endlocal
-
-ECHO EI_QUIET=%EI_QUIET%
-ECHO EI_ARGS=%EI_ARGS%
-
-::GOTO:EOF
+IF NOT "x!EI_ARGS:%EI_KEY_QUIET%=!"=="x%EI_ARGS%" SET EI_QUIET=TRUE
+::ECHO QUIET = %EI_QUIET%
+::ECHO ARGS = %EI_ARGS%
 
 :: ===============================================================
 :: DELETE EPI INFO FOLDER
@@ -212,5 +201,6 @@ IF NOT %EI_QUIET%==TRUE PAUSE
 ".\build\release\Menu.exe"
 
 
+endlocal
 
 :EOF
