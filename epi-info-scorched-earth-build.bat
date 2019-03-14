@@ -188,6 +188,7 @@ git status
 IF NOT %QUIET%==TRUE PAUSE
 @ECHO OFF
 
+
 :: ===============================================================
 :: DELETE THEN COPY PROJECT (RELEASE) DIRECTORY
 :: ===============================================================
@@ -210,8 +211,8 @@ IF NOT %QUIET%==TRUE PAUSE
 :: OPEN EPI MENU
 :: ===============================================================
 :: CD needed so Menu can find modules.
-CD ".\build\release"
-CALL "Menu.exe"
+CD .\build\release
+START Menu.exe
 CD ..\..
 :: ===============================================================
 
@@ -219,8 +220,10 @@ CD ..\..
 ENDLOCAL
 GOTO :EOF
 
+
 :HELP
 ECHO Q   Quiet mode
 GOTO :EOF
+
 
 :EOF
