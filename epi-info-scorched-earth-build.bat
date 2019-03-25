@@ -5,8 +5,7 @@ COLOR 0E
 SETLOCAL ENABLEDELAYEDEXPANSION
 
 SET batchRootDirectory=%CD%
-SET requiredFilesDirectory="C:\requiredFiles (ei7)"
-
+SET requiredFilesDirectory="C:\EpiInfo7ReleaseBuildFiles"
 SET ei7=%batchRootDirectory%\Epi-Info-Community-Edition
 
 SET KEY_QUIET=Q
@@ -291,7 +290,10 @@ ECHO :: ===============================================================
 ECHO :: OPEN EPI MENU
 ECHO :: ===============================================================
 :: CD needed so Menu can find modules.
+CD %ei7%\build\release
 START %ei7%\build\release\Menu.exe
+ECHO %CD%
+
 :: ===============================================================
 
 ECHO :: ===============================================================
