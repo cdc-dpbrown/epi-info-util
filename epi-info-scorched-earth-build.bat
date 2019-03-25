@@ -4,6 +4,11 @@ COLOR 0E
 
 SETLOCAL ENABLEDELAYEDEXPANSION
 
+SET batchRootDirectory=%CD%
+SET requiredFilesDirectory="C:\requiredFiles (ei7)"
+
+SET ei7=%batchRootDirectory%\Epi-Info-Community-Edition
+
 SET KEY_QUIET=Q
 SET KEY_HELP=/?
 
@@ -82,9 +87,6 @@ REM [COMMENT] [BUILD] 7.2.2.16 11/2/2018
 ::git reset --hard 3d7b050cbde62137f77d9ffc4175a0ae8c409935
 
 :SKIP_GET_SOURCE
-:: ===============================================================
-:: END OF GET SOURCE - GIT CLONE EPI INFO REPO
-:: ===============================================================
 
 @ECHO ON
 CD Epi-Info-Community-Edition
@@ -113,7 +115,7 @@ ECHO .
 ECHO An instance of Visual Studio Code will open and you can make the changes there.
 ECHO .
 PAUSE
-CALL code -n SolutionInfo.cs .\EpiInfoPlugin\Properties\AssemblyInfo.cs ".\StatisticsRepository\My Project\AssemblyInfo.vb"
+CALL code -n SolutionInfo.cs %ei7%\EpiInfoPlugin\Properties\AssemblyInfo.cs %ei7%"\StatisticsRepository\My Project\AssemblyInfo.vb"
 
 SET /P commit=COMMIT CHANGES TO GITHUB [Y/N]?
 :ASK_COMMIT_CHANGES
@@ -123,25 +125,55 @@ GOTO :ASK_COMMIT_CHANGES
 GOTO :SKIP_COMMIT_CHANGES
 :COMMIT_CHANGES
 CHDIR
-START /WAIT ..\epi-info-git-commit.bat
+
+:: START /WAIT %initialDirectory%\epi-info-git-commit.bat
+ECHO :: ===============================================================
+ECHO :: UPDATE VERSION
+ECHO :: [BUILD] 7.2.2.V M/D/20YY 
+ECHO :: ===============================================================
+ECHO .
+SET /P V=Minor Version(V): 
+SET /P M=Month(M): 
+SET /P D=Date(D): 
+SET /P Y=Year(YY):
+SET commit_message=[BUILD] 7.2.2.%V% %M%/%D%/20%Y%
+ECHO %commit_message%
+ECHO .
+
+CD Epi-Info-Community-Edition
+@ECHO ON
+git status
+git add SolutionInfo.cs .\EpiInfoPlugin\Properties\AssemblyInfo.cs ".\StatisticsRepository\My Project\AssemblyInfo.vb"
+git status
+git commit -m "%commit_message%"
+git status
+git pull --rebase
+@ECHO OFF
+
+SET /P commitCheck=ARE YOU SURE YOU WANT TO COMMIT [YES/N]?
+:ASK_ARE_YOU_SURE_COMMIT_CHANGES
+IF /I "%commitCheck%" EQU "YES" GOTO :ARE_YOU_SURE_COMMIT_CHANGES
+IF /I "%commitCheck%" EQU "N" GOTO :SKIP_ARE_YOU_SURE_COMMIT_CHANGES
+GOTO :ASK_ARE_YOU_SURE_COMMIT_CHANGES
+:ARE_YOU_SURE_COMMIT_CHANGES
+@ECHO ON
+git push
+@ECHO OFF
+
+:SKIP_ARE_YOU_SURE_COMMIT_CHANGES
+CD ..
 PAUSE
 
 :SKIP_COMMIT_CHANGES
 :SKIP_UPDATE_VERSION
-:: ===============================================================
-:: END OF UPDATE VERSION
-:: ===============================================================
 
 
 ECHO :: ===============================================================
 ECHO :: COPY KEYS
 ECHO :: ===============================================================
 IF %QUIET%==TRUE GOTO:SKIP_KEYS_COPY
-:: ---------------------------------------------------------------
-:: CHANGE TO RELEASE KEYS
-:: ---------------------------------------------------------------
-:: GET RELEASE KEY VERSION OF ConfigurationStatic.cs
-COPY /Y "C:\requiredFiles (ei7)\Configuration_Static.cs" .\Epi.Core\Configuration_Static.cs
+ECHO %requiredFilesDirectory%\Configuration_Static.cs
+COPY /Y %requiredFilesDirectory%\Configuration_Static.cs %ei7%\Epi.Core\Configuration_Static.cs
 ::ECHO OPEN IN CODE TO VERIFY ONLY KEYS HAVE CHANGED
 ::CALL code -n .\Epi.Core\Configuration_Static.cs
 ::PAUSE
@@ -149,11 +181,11 @@ COPY /Y "C:\requiredFiles (ei7)\Configuration_Static.cs" .\Epi.Core\Configuratio
 ECHO :: ===============================================================
 ECHO :: REPLACE THE COMPONENT ART LICENSE
 ECHO :: ===============================================================
-COPY /Y "C:\requiredFiles (ei7)\ComponentArt.Win.DataVisualization.lic" .\Epi.Windows.AnalysisDashboard\ComponentArt.Win.DataVisualization.lic
-COPY /Y "C:\requiredFiles (ei7)\ComponentArt.Win.DataVisualization.lic" .\Epi.Windows.Enter\ComponentArt.Win.DataVisualization.lic
-COPY /Y "C:\requiredFiles (ei7)\ComponentArt.Win.DataVisualization.lic" .\EpiDashboard\ComponentArt.Win.DataVisualization.lic
+COPY /Y %requiredFilesDirectory%\ComponentArt.Win.DataVisualization.lic %ei7%\Epi.Windows.AnalysisDashboard\ComponentArt.Win.DataVisualization.lic
+COPY /Y %requiredFilesDirectory%\ComponentArt.Win.DataVisualization.lic %ei7%\Epi.Windows.Enter\ComponentArt.Win.DataVisualization.lic
+COPY /Y %requiredFilesDirectory%\ComponentArt.Win.DataVisualization.lic %ei7%\EpiDashboard\ComponentArt.Win.DataVisualization.lic
 ::ECHO OPEN IN CODE TO VERIFY THE COMPONENT LICENSE HAS CHANGED
-CALL code -n .
+CALL code -n %ei7%
 PAUSE
 :SKIP_KEYS_COPY
 :: ===============================================================
@@ -172,75 +204,100 @@ IF NOT EXIST ".\build\release" (
     MKDIR release
     CD..
 )
-COPY /Y "C:\requiredFiles (ei7)\dll\Epi.Data.PostgreSQL.dll" .\build\release\Epi.Data.PostgreSQL.dll
-COPY /Y "C:\requiredFiles (ei7)\dll\FipsCrypto.dll" .\build\release\FipsCrypto.dll
-COPY /Y "C:\requiredFiles (ei7)\dll\Interop.PortableDeviceApiLib.dll" .\build\release\Interop.PortableDeviceApiLib.dll
-COPY /Y "C:\requiredFiles (ei7)\dll\Interop.PortableDeviceTypesLib.dll" .\build\release\Interop.PortableDeviceTypesLib.dll
-COPY /Y "C:\requiredFiles (ei7)\dll\Mono.Security.dll" .\build\release\Mono.Security.dll
-COPY /Y "C:\requiredFiles (ei7)\dll\Npgsql.dll" .\build\release\Npgsql.dll
 
-ECHO :: ===============================================================
-ECHO :: COPY PROJECT (RELEASE) DIRECTORY
-ECHO :: ===============================================================
 
-IF NOT %QUIET%==TRUE PAUSE
+:: COPY /Y %requiredFilesDirectory%\dll\Epi.Data.PostgreSQL.dll %ei7%\build\release\Epi.Data.PostgreSQL.dll
+:: COPY /Y %requiredFilesDirectory%\dll\FipsCrypto.dll %ei7%\build\release\FipsCrypto.dll
+:: COPY /Y %requiredFilesDirectory%\dll\Interop.PortableDeviceApiLib.dll %ei7%\build\release\Interop.PortableDeviceApiLib.dll
+:: COPY /Y %requiredFilesDirectory%\dll\Interop.PortableDeviceTypesLib.dll %ei7%\build\release\Interop.PortableDeviceTypesLib.dll
+:: COPY /Y %requiredFilesDirectory%\dll\Mono.Security.dll %ei7%\build\release\Mono.Security.dll
+:: COPY /Y %requiredFilesDirectory%\dll\Npgsql.dll %ei7%\build\release\Npgsql.dll
+
+:: ECHO :: ===============================================================
+:: ECHO :: COPY PROJECT (RELEASE) DIRECTORY
+:: ECHO :: ===============================================================
+
+:: IF NOT %QUIET%==TRUE PAUSE
 
 :: ===============================================================
 ::
 :: ===============================================================
 
 
-
-
-:: ===============================================================
-:: OPEN VS 2017 AND BUILD
-:: ===============================================================
+ECHO :: ===============================================================
+ECHO :: OPEN VS 2017 AND BUILD
+ECHO :: ===============================================================
 :: https://docs.microsoft.com/en-us/visualstudio/ide/reference/devenv-command-line-switches?view=vs-2017
 :: devenv mysln.sln /build Release /project proj1 /projectconfig Release
-
-CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe" "Epi Info 7.sln" /p:Configuration=Release /p:Platform=x86
+CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe" %ei7%"\Epi Info 7.sln" /p:Configuration=Release /p:Platform=x86
 IF NOT %QUIET%==TRUE PAUSE
 
-:: ===============================================================
-:: COPY LAUNCH EPI INFO EXECUTABLE 
-:: ===============================================================
+ECHO :: ===============================================================
+ECHO :: COPY LAUNCH EPI INFO EXECUTABLE 
+ECHO :: ===============================================================
 @ECHO ON
-COPY /Y "C:\requiredFiles (ei7)\Launch Epi Info 7.exe" ".\build\release\Launch Epi Info 7.exe"
+COPY /Y %requiredFilesDirectory%"\Launch Epi Info 7.exe" %ei7%"\build\Launch Epi Info 7.exe"
 @ECHO OFF
 
 
+ECHO :: ===============================================================
+ECHO :: GIT CHECKOUT ALL - (UNDO KEYS AND LICENSE FILES)
+ECHO :: ===============================================================
 @ECHO ON
 git checkout -- *
 git status
+@ECHO OFF
 IF NOT %QUIET%==TRUE PAUSE
+
+ECHO :: ===============================================================
+ECHO :: PRUNE FILES RENAME AND ZIP
+ECHO :: ===============================================================
+:: START /WAIT %batchRootDirectory%\epi-info-prune-and-zip.bat
+
+@ECHO ON
+RMDIR /S /Q  %ei7%\Build\release\app.publish
+RMDIR /S /Q  %ei7%\Build\release\Configuration
+RMDIR /S /Q  %ei7%\Build\release\Logs
+RMDIR /S /Q  %ei7%\Build\release\TestCases
+RMDIR /S /Q  %ei7%\Build\release\Templates\Projects
+RMDIR /S /Q  %ei7%\Build\release\Projects
+
+XCOPY %requiredFilesDirectory%\projectsRelease\Projects %ei7%\build\release\Projects /I /E
+
+DEL /Q %ei7%\Build\release\Output\*.html
+DEL /Q %ei7%\Build\release\*.pdb
 @ECHO OFF
 
 
-:: ===============================================================
-:: DELETE THEN COPY PROJECT (RELEASE) DIRECTORY
-:: ===============================================================
+ECHO :: ===============================================================
+ECHO :: COPY RELEASE FOLDER TO EPI INFO 7
+ECHO :: ===============================================================
+XCOPY %ei7%\Build\release %ei7%\Build\"Epi Info 7" /I /E
+XCOPY %ei7%\Build\"Epi Info 7" %ei7%\Build\"Epi Info 7" /I /E
+
+ECHO :: ===============================================================
+ECHO :: COPY EPI INFO 7 TO Epi Info 7@2019-03-24@16-34-32
+ECHO :: ===============================================================
+for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
+set "YY=%dt:~2,2%" & set "YYYY=%dt:~0,4%" & set "MM=%dt:~4,2%" & set "DD=%dt:~6,2%"
+set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
+set "fullstamp=@%YYYY%-%MM%-%DD%@%HH%-%Min%-%Sec%"
+echo fullstamp: "%fullstamp%
+SET newName=%ei7%\Build\"Epi Info 7"%fullstamp%
+XCOPY %ei7%\Build\"Epi Info 7" %newName% /I /E
 
 
-:: ===============================================================
-:: PRUNE FILES
-:: ===============================================================
-
-
-:: ===============================================================
-:: RENAME AND ZIP
-:: ===============================================================
-
-
-:: explorer ".\build\release\"
-
-
-:: ===============================================================
-:: OPEN EPI MENU
-:: ===============================================================
+ECHO :: ===============================================================
+ECHO :: OPEN EPI MENU
+ECHO :: ===============================================================
 :: CD needed so Menu can find modules.
-CD .\build\release
-START Menu.exe
-CD ..\..
+START %ei7%\build\release\Menu.exe
+:: ===============================================================
+
+ECHO :: ===============================================================
+ECHO :: OPEN WINDOWS EXPLORER IN BUILD DIRECTORY
+ECHO :: ===============================================================
+EXPLORER %ei7%\build
 :: ===============================================================
 
 
