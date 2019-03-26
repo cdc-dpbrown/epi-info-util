@@ -22,21 +22,21 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 ECHO.
-WHERE CODE
+WHERE /R C:\ CODE.EXE
 IF %ERRORLEVEL% EQU 0 (
-     ECHO CODE: GOOD
+     ECHO VISUAL STUDIO CODE: GOOD
      CALL code -v
 ) ELSE (
-     ECHO CODE: NO
+     ECHO VISUAL STUDIO CODE: NO
 )
 
 ECHO.
 WHERE NODE
 IF %ERRORLEVEL% EQU 0 (
-     ECHO NODE: GOOD
+     ECHO NODEJS: GOOD
      CALL node -v
 ) ELSE (
-     ECHO NODE: NO
+     ECHO NODEJS: NO
 )
 
 REM npm install --save yarn-install
