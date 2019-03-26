@@ -146,16 +146,16 @@ ECHO :: ===============================================================
 ECHO :: COPY KEYS
 ECHO :: REPLACE THE COMPONENT ART LICENSE
 ECHO :: ===============================================================
-IF %QUIET%==TRUE GOTO:SKIP_KEYS_COPY
 ECHO %requiredFilesDirectory%\Configuration_Static.cs
 COPY /Y %requiredFilesDirectory%\Configuration_Static.cs %ei7%\Epi.Core\Configuration_Static.cs
 COPY /Y %requiredFilesDirectory%\ComponentArt.Win.DataVisualization.lic %ei7%\Epi.Windows.AnalysisDashboard\ComponentArt.Win.DataVisualization.lic
 COPY /Y %requiredFilesDirectory%\ComponentArt.Win.DataVisualization.lic %ei7%\Epi.Windows.Enter\ComponentArt.Win.DataVisualization.lic
 COPY /Y %requiredFilesDirectory%\ComponentArt.Win.DataVisualization.lic %ei7%\EpiDashboard\ComponentArt.Win.DataVisualization.lic
+IF %QUIET%==TRUE GOTO:SKIP_VERIFY_KEYS_COPY
 ::ECHO OPEN IN CODE TO VERIFY THE COMPONENT LICENSE HAS CHANGED
 CALL code -n %ei7%
 PAUSE
-:SKIP_KEYS_COPY
+:SKIP_VERIFY_KEYS_COPY
 :: ===============================================================
 
 ECHO :: ===============================================================
@@ -236,15 +236,19 @@ XCOPY %ei7%\Build\"Epi Info 7" %newName% /I /E
 ECHO :: ===============================================================
 ECHO :: OPEN EPI MENU
 ECHO :: ===============================================================
+@ECHO ON
 CD %ei7%\build\release
 START %ei7%\build\release\Menu.exe
 ECHO %CD%
+@ECHO OFF
 :: ===============================================================
 
 ECHO :: ===============================================================
 ECHO :: OPEN WINDOWS EXPLORER IN BUILD DIRECTORY
 ECHO :: ===============================================================
+@ECHO ON
 EXPLORER %ei7%\build
+@ECHO OFF
 :: ===============================================================
 
 ENDLOCAL
