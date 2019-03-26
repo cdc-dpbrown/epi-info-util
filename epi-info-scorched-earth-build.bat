@@ -3,7 +3,7 @@ CLS
 COLOR 0A
 
 ECHO :: ===============================================================
-ECHO :: DELETE EPI INFO FOLDER
+ECHO :: SET LOCAL VARIABLES
 ECHO :: ===============================================================
 SETLOCAL ENABLEDELAYEDEXPANSION
 SET batchRootDirectory=%CD%
