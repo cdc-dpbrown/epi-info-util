@@ -64,9 +64,19 @@ GOTO :ASK_GET_SOURCE
 :GET_SOURCE
 @ECHO ON
 git clone https://github.com/Epi-Info/Epi-Info-Community-Edition.git
+:: ::PAUSE
+:: CD %ei7%
+:: :: === RESET ===
+:: REM [COMMENT] Fixed issue in Silverlight configuration
+:: git reset --hard a02aecc893179e72fa7a65f5fe91f4761554798d
+:: ::PAUSE
+
+:: :: === CHERRY-PICK
+:: REM [COMMENT] PublishtoWebSurvey-Modified Unsupported fields to support Mirror,Text…
+:: git cherry-pick 2a700625429d5608ff3a54b0d219ebc08d19f116
+:: ::PAUSE
+
 @ECHO OFF
-REM [COMMENT] [BUILD] 7.2.2.16 11/2/2018
-::git reset --hard 3d7b050cbde62137f77d9ffc4175a0ae8c409935
 :SKIP_GET_SOURCE
 :: ===============================================================
 
