@@ -87,18 +87,18 @@ ECHO :: ===============================================================
 ECHO .
 ECHO :: SolutionInfo.cs
 ECHO :: [assembly: AssemblyVersion("7.2.*")]
-ECHO :: [assembly: AssemblyFileVersion("7.2.2.V")]
-ECHO :: [assembly: AssemblyInformationalVersion("7.2.2.V")]
+ECHO :: [assembly: AssemblyFileVersion("7.2.3.V")]
+ECHO :: [assembly: AssemblyInformationalVersion("7.2.3.V")]
 ECHO :: [assembly: SatelliteContractVersion("7.0.0.0")]
 ECHO :: [assembly: Epi.AssemblyReleaseDateAttribute("MM/DD/YYYY")]
 ECHO .
 ECHO :: AssemblyInfo.cs
-ECHO :: [assembly: AssemblyVersion("7.2.2.V")]
-ECHO :: [assembly: AssemblyFileVersion("7.2.2.V")]
+ECHO :: [assembly: AssemblyVersion("7.2.3.V")]
+ECHO :: [assembly: AssemblyFileVersion("7.2.3.V")]
 ECHO .
 ECHO :: AssemblyInfo.vb
-ECHO :: Assembly: AssemblyVersion("7.2.2.V")
-ECHO :: Assembly: AssemblyFileVersion("7.2.2.V")
+ECHO :: Assembly: AssemblyVersion("7.2.3.V")
+ECHO :: Assembly: AssemblyFileVersion("7.2.3.V")
 ECHO .
 ECHO An instance of Visual Studio Code will open and you can make the changes there.
 ECHO .
@@ -114,14 +114,14 @@ GOTO :SKIP_COMMIT_CHANGES
 CHDIR
 ECHO :: ===============================================================
 ECHO :: UPDATE VERSION
-ECHO :: [BUILD] 7.2.2.V M/D/20YY 
+ECHO :: [BUILD] 7.2.3.V M/D/20YY 
 ECHO :: ===============================================================
 ECHO .
 SET /P V=Minor Version(V): 
 SET /P M=Month(M): 
 SET /P D=Date(D): 
 SET /P Y=Year(YY):
-SET commit_message=[BUILD] 7.2.2.%V% %M%/%D%/20%Y%
+SET commit_message=[BUILD] 7.2.3.%V% %M%/%D%/20%Y%
 ECHO %commit_message%
 ECHO .
 @ECHO ON
@@ -186,6 +186,8 @@ IF NOT EXIST ".\build\release" (
 ECHO :: ===============================================================
 ECHO :: BUILD
 ECHO :: ===============================================================
+CD %batchRootDirectory%
+CALL nuget restore %ei7%"\Epi Info 7.sln"
 CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe" %ei7%"\Epi Info 7.sln" /p:Configuration=Release /p:Platform=x86
 
 :: where /r c:\ MSBuild.exe
