@@ -20,6 +20,7 @@ SET QUIET=FALSE
 SET HELP=FALSE
 IF NOT "x!ARGS:%KEY_QUIET%=!"=="x%ARGS%" SET QUIET=TRUE
 IF NOT "x!ARGS:%KEY_HELP%=!"=="x%ARGS%" GOTO :HELP
+ECHO MSBUILD.EXE PATH: %buildEXE%
 ECHO ARGS=%ARGS%
 ECHO QUIET: %QUIET%
 ECHO HELP: %HELP%
@@ -277,6 +278,13 @@ ECHO :: ===============================================================
 @ECHO ON
 EXPLORER %ei7%\build
 @ECHO OFF
+
+ECHO.
+ECHO :: ===============================================================
+ECHO :: THE FOLLOWING CAN BE COPIED AND USED TO HELP RENAME THE ZIP
+ECHO :: ZIP [ Epi Info 7 ] AND [ Launch Epi Info 7.exe ]
+ECHO :: ===============================================================
+ECHO %YYYY%.%MM%.%DD% Epi Info 7.2.3. (dual keys)(en-US,es-ES, fr-FR)
 
 ENDLOCAL
 GOTO :EOF
