@@ -2,10 +2,13 @@ CLS
 @ECHO OFF
 COLOR 0A
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: SET LOCAL VARIABLES
 ECHO :: ===============================================================
+ECHO.
 SETLOCAL ENABLEDELAYEDEXPANSION
+SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe"
 SET batchRootDirectory=%CD%
 SET requiredFilesDirectory="C:\EpiInfo7ReleaseBuildFiles"
 SET ei7=%batchRootDirectory%\Epi-Info-Community-Edition
@@ -23,11 +26,12 @@ ECHO HELP: %HELP%
 ECHO batchRootDirectory: %batchRootDirectory%
 ECHO requiredFilesDirectory: %requiredFilesDirectory%
 ECHO ei7: %ei7%
-:: ===============================================================
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: DELETE EPI INFO FOLDER
 ECHO :: ===============================================================
+ECHO.
 IF %QUIET%==TRUE GOTO :DELETEEPIINFOFOLDER
 :ASK_SKIP_DELETE
 SET /P d=DELETE EPI INFO FOLDER [Y/N]?
@@ -36,7 +40,6 @@ IF /I "%d%" EQU "N" GOTO :SKIP_DELETE
 GOTO :ASK_SKIP_DELETE
 :DELETEEPIINFOFOLDER
 IF EXIST ".\Epi-Info-Community-Edition" (
-    ECHO.
     ECHO Deleting Epi-Info-Community-Edition directory
 ) 
 IF EXIST ".\Epi-Info-Community-Edition" (
@@ -51,6 +54,8 @@ IF EXIST ".\Epi-Info-Community-Edition" (
     ECHO Epi-Info-Community-Edition - gone
 )
 :SKIP_DELETE
+
+ECHO.
 ECHO :: ===============================================================
 ECHO :: GET SOURCE - GIT CLONE EPI INFO REPO
 ECHO :: ===============================================================
@@ -69,13 +74,13 @@ git clone https://github.com/Epi-Info/Epi-Info-Community-Edition.git
 ::CD %ei7%
 ::git checkout e2cd415b3308d1612ec368a06eec82b5d6512041
 ::git checkout fc96dd557a385d37e048e904ed17aea76c663ec8
-PAUSE
+::PAUSE
 
 @ECHO OFF
 :SKIP_GET_SOURCE
-:: ===============================================================
 
 IF %QUIET%==TRUE GOTO:SKIP_UPDATE_VERSION
+ECHO.
 ECHO :: ===============================================================
 ECHO :: UPDATE VERSION
 ECHO :: ===============================================================
@@ -107,6 +112,7 @@ GOTO :ASK_COMMIT_CHANGES
 GOTO :SKIP_COMMIT_CHANGES
 :COMMIT_CHANGES
 CHDIR
+ECHO.
 ECHO :: ===============================================================
 ECHO :: UPDATE VERSION
 ECHO :: [BUILD] 7.2.3.V M/D/20YY 
@@ -145,12 +151,13 @@ PAUSE
 
 :SKIP_COMMIT_CHANGES
 :SKIP_UPDATE_VERSION
-:: ===============================================================
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: COPY KEYS
 ECHO :: REPLACE THE COMPONENT ART LICENSE
 ECHO :: ===============================================================
+ECHO.
 ECHO %requiredFilesDirectory%\Configuration_Static.cs
 COPY /Y %requiredFilesDirectory%\Configuration_Static.cs %ei7%\Epi.Core\Configuration_Static.cs
 COPY /Y %requiredFilesDirectory%\ComponentArt.Win.DataVisualization.lic %ei7%\Epi.Windows.AnalysisDashboard\ComponentArt.Win.DataVisualization.lic
@@ -161,11 +168,13 @@ IF %QUIET%==TRUE GOTO:SKIP_VERIFY_KEYS_COPY
 CALL code -n %ei7%
 PAUSE
 :SKIP_VERIFY_KEYS_COPY
-:: ===============================================================
 
+GOTO :SKIP_MKDIR
+ECHO.
 ECHO :: ===============================================================
 ECHO :: COPY DLLS
 ECHO :: ===============================================================
+ECHO.
 IF NOT EXIST "build" (
     COLOR
     MKDIR build
@@ -176,28 +185,35 @@ IF NOT EXIST ".\build\release" (
     MKDIR release
     CD..
 )
-:: ===============================================================
+:SKIP_MKDIR
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: BUILD
 ECHO :: ===============================================================
+ECHO.
 CD %batchRootDirectory%
 CALL nuget restore %ei7%"\Epi Info 7.sln"
-CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe" %ei7%"\Epi Info 7.sln" /p:Configuration=Release /p:Platform=x86
+ECHO.
+ECHO.
+ECHO     [ STARTING BUILD ] PLEASE WAIT ... ( ~30 SECONDS )
+ECHO.
+ECHO.
+CALL %buildEXE% %ei7%"\Epi Info 7.sln" /m /p:Configuration=Release /p:Platform=x86 /clp:Summary=true;ErrorsOnly
 
 :: where /r c:\ MSBuild.exe
 
 IF NOT %QUIET%==TRUE PAUSE
-:: ===============================================================
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: COPY LAUNCH EPI INFO EXECUTABLE 
 ECHO :: ===============================================================
 @ECHO ON
 COPY /Y %requiredFilesDirectory%"\Launch Epi Info 7.exe" %ei7%"\build\Launch Epi Info 7.exe"
 @ECHO OFF
-:: ===============================================================
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: GIT CHECKOUT ALL - (UNDO KEYS AND LICENSE FILES)
 ECHO :: ===============================================================
@@ -207,8 +223,8 @@ git checkout -- *
 git status
 @ECHO OFF
 IF NOT %QUIET%==TRUE PAUSE
-:: ===============================================================
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: PRUNE FILES RENAME AND ZIP
 ECHO :: ===============================================================
@@ -219,30 +235,32 @@ RMDIR /S /Q  %ei7%\Build\release\Logs
 RMDIR /S /Q  %ei7%\Build\release\TestCases
 RMDIR /S /Q  %ei7%\Build\release\Templates\Projects
 RMDIR /S /Q  %ei7%\Build\release\Projects
-XCOPY %requiredFilesDirectory%\projectsRelease\Projects %ei7%\build\release\Projects /I /E
+XCOPY %requiredFilesDirectory%\projectsRelease\Projects %ei7%\build\release\Projects /I /E /Q
 DEL /Q %ei7%\Build\release\Output\*.html
 DEL /Q %ei7%\Build\release\*.pdb
 @ECHO OFF
-:: ===============================================================
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: COPY RELEASE FOLDER TO EPI INFO 7
 ECHO :: ===============================================================
-XCOPY %ei7%\Build\release %ei7%\Build\"Epi Info 7" /I /E
-:: ===============================================================
+ECHO.
+XCOPY %ei7%\Build\release %ei7%\Build\"Epi Info 7" /I /E /Q
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: COPY EPI INFO 7 TO Epi Info 7@2019-03-24@16-34-32
 ECHO :: ===============================================================
+ECHO.
 for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
 set "YY=%dt:~2,2%" & set "YYYY=%dt:~0,4%" & set "MM=%dt:~4,2%" & set "DD=%dt:~6,2%"
 set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
 set "fullstamp=@%YYYY%-%MM%-%DD%@%HH%-%Min%-%Sec%"
 echo fullstamp: "%fullstamp%
 SET newName=%ei7%\Build\"Epi Info 7"%fullstamp%
-XCOPY %ei7%\Build\"Epi Info 7" %newName% /I /E
-:: ===============================================================
+XCOPY %ei7%\Build\"Epi Info 7" %newName% /I /E /Q
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: OPEN EPI MENU
 ECHO :: ===============================================================
@@ -251,25 +269,25 @@ CD %ei7%\build\release
 START %ei7%\build\release\Menu.exe
 ECHO %CD%
 @ECHO OFF
-:: ===============================================================
 
+ECHO.
 ECHO :: ===============================================================
 ECHO :: OPEN WINDOWS EXPLORER IN BUILD DIRECTORY
 ECHO :: ===============================================================
 @ECHO ON
 EXPLORER %ei7%\build
 @ECHO OFF
-:: ===============================================================
 
 ENDLOCAL
 GOTO :EOF
 
 :HELP
+ECHO.
 ECHO :: ===============================================================
 ECHO :: HELP
 ECHO :: ===============================================================
+ECHO.
 ECHO Q   Quiet mode
 GOTO :EOF
-:: ===============================================================
 
 :EOF
