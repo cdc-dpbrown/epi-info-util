@@ -63,16 +63,19 @@ GOTO :ASK_GET_SOURCE
 @ECHO ON
 git clone https://github.com/Epi-Info/Epi-Info-Community-Edition.git
 @ECHO OFF
-REM [COMMENT] [BUILD] 7.2.2.16 11/2/2018
-::git reset --hard 3d7b050cbde62137f77d9ffc4175a0ae8c409935
+
+:: === CHECK OUT SPECIFIC COMMIT ===
+::CD %ei7%
+::git checkout e2cd415b3308d1612ec368a06eec82b5d6512041
+::git checkout fc96dd557a385d37e048e904ed17aea76c663ec8
+::PAUSE
 :SKIP_GET_SOURCE
-:: ===============================================================
 
 ECHO :: ===============================================================
 ECHO :: OPEN WINDOWS EXPLORER IN EPI INFO 7 DIRECTORY
 ECHO :: ===============================================================
 @ECHO ON
-EXPLORER %ei7%
+:: EXPLORER %ei7%
 @ECHO OFF
 :: ===============================================================
 
@@ -80,8 +83,10 @@ ECHO :: ===============================================================
 ECHO :: OPEN SOLUTION IN VISUAL STUDIO
 ECHO :: ===============================================================
 @ECHO ON
+CD %batchRootDirectory%
+CALL nuget restore %ei7%"\Epi Info 7.sln"
 CD %ei7%
-"Epi Info 7.sln"
+CALL "Epi Info 7.sln"
 @ECHO OFF
 :: ===============================================================
 
