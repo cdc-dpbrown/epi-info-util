@@ -6,8 +6,9 @@ ECHO :: ===============================================================
 ECHO :: SET LOCAL VARIABLES
 ECHO :: ===============================================================
 SETLOCAL ENABLEDELAYEDEXPANSION
+SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe"
 SET batchRootDirectory=%CD%
-SET webSurvey=%batchRootDirectory%\Epi-Info-Web-Survey
+SET webEnter=%batchRootDirectory%\Epi-Info-Cloud-Data-Capture
 SET KEY_QUIET=Q
 SET KEY_HELP=/?
 SET ARGS=%1
@@ -20,7 +21,7 @@ ECHO ARGS=%ARGS%
 ECHO QUIET: %QUIET%
 ECHO HELP: %HELP%
 ECHO batchRootDirectory: %batchRootDirectory%
-ECHO webSurvey: %webSurvey%
+ECHO webEnter: %webEnter%
 :: ===============================================================
 
 ECHO :: ===============================================================
@@ -33,20 +34,20 @@ IF /I "%d%" EQU "Y" GOTO :DELETEEPIINFOFOLDER
 IF /I "%d%" EQU "N" GOTO :SKIP_DELETE
 GOTO :ASK_SKIP_DELETE
 :DELETEEPIINFOFOLDER
-IF EXIST ".\Epi-Info-Web-Survey" (
+IF EXIST ".\Epi-Info-Cloud-Data-Capture" (
     ECHO.
-    ECHO Deleting Epi-Info-Web-Survey directory
+    ECHO Deleting Epi-Info-Cloud-Data-Capture directory
 ) 
-IF EXIST ".\Epi-Info-Web-Survey" (
-    RMDIR /S /Q .\Epi-Info-Web-Survey
+IF EXIST ".\Epi-Info-Cloud-Data-Capture" (
+    RMDIR /S /Q .\Epi-Info-Cloud-Data-Capture
 ) 
-IF EXIST ".\Epi-Info-Web-Survey" (
+IF EXIST ".\Epi-Info-Cloud-Data-Capture" (
     COLOR 0A
-    ECHO Epi-Info-Web-Survey - still there - try restartExplorer.bat
+    ECHO Epi-Info-Cloud-Data-Capture - still there - try restartExplorer.bat
     EXIT /B
 ) ELSE (
     COLOR
-    ECHO Epi-Info-Web-Survey - gone
+    ECHO Epi-Info-Cloud-Data-Capture - gone
 )
 :SKIP_DELETE
 ECHO :: ===============================================================
@@ -61,10 +62,11 @@ IF /I "%o%" EQU "N" GOTO :SKIP_GET_SOURCE
 GOTO :ASK_GET_SOURCE
 :GET_SOURCE
 @ECHO ON
-git clone https://github.com/Epi-Info/Epi-Info-Web-Survey.git
+git clone https://github.com/Epi-Info/Epi-Info-Cloud-Data-Capture.git
 @ECHO OFF
-::CD %webSurvey%
-::git reset --hard c5baca6a6c08f2168bc28d00f7db0e2ce104fd24
+::CD %webEnter%
+::git reset --hard ba6476afb4d300614ac58c66ec84dc91d83bda74
+::git reset --hard ba6476afb4d300614ac58c66ec84dc91d83bda74
 :SKIP_GET_SOURCE
 :: ===============================================================
 
@@ -72,7 +74,7 @@ ECHO :: ===============================================================
 ECHO :: OPEN WINDOWS EXPLORER IN WEB SURVEY DIRECTORY
 ECHO :: ===============================================================
 @ECHO ON
-::EXPLORER %webSurvey%
+::EXPLORER %webEnter%
 @ECHO OFF
 :: ===============================================================
 
@@ -80,8 +82,11 @@ ECHO :: ===============================================================
 ECHO :: OPEN SOLUTION IN VISUAL STUDIO
 ECHO :: ===============================================================
 @ECHO ON
-CD %webSurvey%
-"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" "Epi Info Web Survey.sln"
+CD %batchRootDirectory%
+CALL nuget restore %webEnter%"\Epi Info Web Enter.sln"
+CD %webEnter%
+CALL %buildEXE% "Epi Info Web Enter.sln" -t:restore 
+"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" "Epi Info Web Enter.sln"
 @ECHO OFF
 :: ===============================================================
 
