@@ -2,7 +2,7 @@ reg query "HKCU\Control Panel\International"
 
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v Locale /d 0000080A /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v LocaleName /d es-MX /f
-REG ADD "HKCU\Control Panel\International" /t REG_SZ /v s1159 /d "a. m."" /f
+REG ADD "HKCU\Control Panel\International" /t REG_SZ /v s1159 /d "a. m." /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v s2359 /d "p. m." /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sCountry /d Mexico /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sCurrency /d $ /f
