@@ -17,7 +17,7 @@ REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sMonGrouping /d 3;0 /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sMonThousandSep /d . /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sNativeDigits /d 0123456789 /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sNegativeSign /d - /f
-REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sPositiveSign    REG_SZ /f
+REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sPositiveSign /d "" /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sShortDate /d d/M/yyyy /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sThousand /d . /f
 REG ADD "HKCU\Control Panel\International" /t REG_SZ /v sTime /d : /f
