@@ -39,6 +39,7 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 :: STOP HERE IF NODE AND NPM ARE NOT INSTALLED
+:: https://nodejs.org/en/download/
 
 :: SELENIUM SIDE RUNNER
 CALL npm install -g selenium-side-runner

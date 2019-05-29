@@ -1,0 +1,121 @@
+{
+  "id": "5d552dae-3020-4eaa-b8b2-2535192423b9",
+  "version": "2.0",
+  "name": "QA_WebSurvey_Comprehensive",
+  "url": "http://tephinetepiinfo.cloudapp.net",
+  "tests": [{
+    "id": "88faae97-2aeb-49a3-979c-04a18dcd60c7",
+    "name": "Assign",
+    "commands": [{
+      "id": "9ab27232-26a1-460c-a360-37c5ecb83f1c",
+      "comment": "",
+      "command": "open",
+      "target": "/EIWS_QA/Home/60cee387-4f30-475e-933a-d2d1b0fe711e",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f1cb00e7-1e87-41cd-944b-41ec58b451ed",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1366x707",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "51cc00ff-4395-4ec8-b061-61ffdbb11f17",
+      "comment": "",
+      "command": "click",
+      "target": "id=beginsurvey",
+      "targets": [
+        ["id=beginsurvey", "id"],
+        ["css=#beginsurvey", "css:finder"],
+        ["xpath=//button[@id='beginsurvey']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/p[6]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Begin Survey')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0f4812e5-0052-4e35-b042-a95f48703826",
+      "comment": "",
+      "command": "type",
+      "target": "id=mvcdynamicfield_sourcetextboxfield",
+      "targets": [
+        ["id=mvcdynamicfield_sourcetextboxfield", "id"],
+        ["name=mvcdynamicfield_sourcetextboxfield", "name"],
+        ["css=#mvcdynamicfield_sourcetextboxfield", "css:finder"],
+        ["xpath=//input[@id='mvcdynamicfield_sourcetextboxfield']", "xpath:attributes"],
+        ["xpath=//div[@id='mvcdynamicfield_sourcetextboxfield_fieldWrapper']/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "SourceText"
+    }, {
+      "id": "0540f8ca-5293-4329-968a-60855482b8bc",
+      "comment": "",
+      "command": "click",
+      "target": "id=ContinueButton",
+      "targets": [
+        ["id=ContinueButton", "id"],
+        ["name=ContinueButton", "name"],
+        ["css=#ContinueButton", "css:finder"],
+        ["xpath=//button[@id='ContinueButton']", "xpath:attributes"],
+        ["xpath=//div[@id='next']/button", "xpath:idRelative"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue  ')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9dbed7a5-e5b7-4a82-860c-edfb4b511dde",
+      "comment": "",
+      "command": "click",
+      "target": "id=mvcdynamicfield_sourcetextuppercasefield",
+      "targets": [
+        ["id=mvcdynamicfield_sourcetextuppercasefield", "id"],
+        ["name=mvcdynamicfield_sourcetextuppercasefield", "name"],
+        ["css=#mvcdynamicfield_sourcetextuppercasefield", "css:finder"],
+        ["xpath=//input[@id='mvcdynamicfield_sourcetextuppercasefield']", "xpath:attributes"],
+        ["xpath=//div[@id='mvcdynamicfield_sourcetextuppercasefield_fieldWrapper']/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a0ffdf16-8317-4189-970f-17e99341e4b5",
+      "comment": "",
+      "command": "type",
+      "target": "id=mvcdynamicfield_sourcetextuppercasefield",
+      "targets": [
+        ["id=mvcdynamicfield_sourcetextuppercasefield", "id"],
+        ["name=mvcdynamicfield_sourcetextuppercasefield", "name"],
+        ["css=#mvcdynamicfield_sourcetextuppercasefield", "css:finder"],
+        ["xpath=//input[@id='mvcdynamicfield_sourcetextuppercasefield']", "xpath:attributes"],
+        ["xpath=//div[@id='mvcdynamicfield_sourcetextuppercasefield_fieldWrapper']/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "SOURCETEXT"
+    }, {
+      "id": "ea314726-258c-48ee-bfdd-c2b1dedcc370",
+      "comment": "",
+      "command": "click",
+      "target": "id=ContinueButton",
+      "targets": [
+        ["id=ContinueButton", "id"],
+        ["name=ContinueButton", "name"],
+        ["css=#ContinueButton", "css:finder"],
+        ["xpath=//button[@id='ContinueButton']", "xpath:attributes"],
+        ["xpath=//div[@id='next']/button", "xpath:idRelative"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue  ')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "c1e93d66-e354-41fe-a448-a34e237b54b3",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["88faae97-2aeb-49a3-979c-04a18dcd60c7"]
+  }],
+  "urls": ["http://tephinetepiinfo.cloudapp.net/"],
+  "plugins": []
+}

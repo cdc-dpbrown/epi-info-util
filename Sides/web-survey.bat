@@ -1,1 +1,1 @@
-selenium-side-runner /path/to/your-project.side
+selenium-side-runner QA_WebSurvey_Comprehensive.side
