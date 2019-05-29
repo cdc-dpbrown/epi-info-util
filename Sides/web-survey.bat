@@ -1,0 +1,1 @@
+selenium-side-runner /path/to/your-project.side
