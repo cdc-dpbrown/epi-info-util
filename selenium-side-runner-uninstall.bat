@@ -45,27 +45,27 @@ ENDLOCAL
 
 ::GOTO:SKIP_GLOBAL
 :: SELENIUM SIDE RUNNER
-CALL npm install -g selenium-side-runner
+CALL npm uninstall -g selenium-side-runner
 :: CHROME
-CALL npm install -g chromedriver
+CALL npm uninstall -g chromedriver
 :: EDGE
-CALL npm install -g edgedriver
+CALL npm uninstall -g edgedriver
 :: FIREFOX
-CALL npm install -g geckodriver
+CALL npm uninstall -g geckodriver
 :: IE
-CALL npm install -g iedriver
+CALL npm uninstall -g iedriver
 :::SKIP_GLOBAL
 
 :: SELENIUM SIDE RUNNER
-::CALL npm install selenium-side-runner
+CALL npm uninstall selenium-side-runner
 :: CHROME
-::CALL npm install chromedriver
+CALL npm uninstall chromedriver
 :: EDGE
-::CALL npm install edgedriver
+CALL npm uninstall edgedriver
 :: FIREFOX
-::CALL npm install geckodriver
+CALL npm uninstall geckodriver
 :: IE
-::CALL npm install iedriver
+CALL npm uninstall iedriver
 
 :: You'll also need to have the browser installed on your machine.
 
