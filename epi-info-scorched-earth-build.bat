@@ -170,12 +170,13 @@ CALL code -n %ei7%
 PAUSE
 :SKIP_VERIFY_KEYS_COPY
 
-GOTO :SKIP_MKDIR
+
 ECHO.
 ECHO :: ===============================================================
 ECHO :: COPY DLLS
 ECHO :: ===============================================================
 ECHO.
+CD %ei7%
 IF NOT EXIST "build" (
     COLOR
     MKDIR build
@@ -184,9 +185,14 @@ IF NOT EXIST ".\build\release" (
     COLOR
     CD build
     MKDIR release
-    CD..
 )
-:SKIP_MKDIR
+COPY /Y %requiredFilesDirectory%\dll\Epi.Data.PostgreSQL.dll %ei7%\build\release\Epi.Data.PostgreSQL.dll
+COPY /Y %requiredFilesDirectory%\dll\FipsCrypto.dll %ei7%\build\release\FipsCrypto.dll
+COPY /Y %requiredFilesDirectory%\dll\Interop.PortableDeviceApiLib.dll %ei7%\build\release\Interop.PortableDeviceApiLib.dll
+COPY /Y %requiredFilesDirectory%\dll\Interop.PortableDeviceTypesLib.dll %ei7%\build\release\Interop.PortableDeviceTypesLib.dll
+COPY /Y %requiredFilesDirectory%\dll\Mono.Security.dll %ei7%\build\release\Mono.Security.dll
+COPY /Y %requiredFilesDirectory%\dll\Npgsql.dll %ei7%\build\release\Npgsql.dll
+
 
 ECHO.
 ECHO :: ===============================================================
