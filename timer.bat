@@ -1,11 +1,16 @@
 @ECHO OFF
 :START
-:: CLS
+CLS
+DIR
+git status
+COLOR 02
 ECHO :: ===================================
 ECHO :: SEVEN POINT FIVE MINUTE TIMER
 ECHO :: ===================================
-COLOR 02
 TIMEOUT /T 450
-COLOR 0C
+CLS
+COLOR 0A
+DIR
+git status
 PAUSE
 GOTO :START
