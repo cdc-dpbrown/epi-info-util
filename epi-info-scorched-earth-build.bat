@@ -13,16 +13,20 @@ SET batchRootDirectory=%CD%
 SET requiredFilesDirectory="C:\EpiInfo7ReleaseBuildFiles"
 SET ei7=%batchRootDirectory%\Epi-Info-Community-Edition
 SET KEY_QUIET=Q
+SET KEEP_KEEP_RELEASE_KEYS=K
 SET KEY_HELP=/?
 SET ARGS=%1
 IF "%ARGS%" EQU "" SET ARGS=1
 SET QUIET=FALSE
+SET KEEP_RELEASE_KEYS=FALSE
 SET HELP=FALSE
 IF NOT "x!ARGS:%KEY_QUIET%=!"=="x%ARGS%" SET QUIET=TRUE
+IF NOT "x!ARGS:%KEEP_KEEP_RELEASE_KEYS%=!"=="x%ARGS%" SET KEEP_RELEASE_KEYS=TRUE
 IF NOT "x!ARGS:%KEY_HELP%=!"=="x%ARGS%" GOTO :HELP
 ECHO MSBUILD.EXE PATH: %buildEXE%
 ECHO ARGS=%ARGS%
 ECHO QUIET: %QUIET%
+ECHO KEEP_RELEASE_KEYS: %KEEP_RELEASE_KEYS%
 ECHO HELP: %HELP%
 ECHO batchRootDirectory: %batchRootDirectory%
 ECHO requiredFilesDirectory: %requiredFilesDirectory%
@@ -220,6 +224,7 @@ ECHO :: ===============================================================
 COPY /Y %requiredFilesDirectory%"\Launch Epi Info 7.exe" %ei7%"\build\Launch Epi Info 7.exe"
 @ECHO OFF
 
+IF %KEEP_RELEASE_KEYS%==TRUE GOTO:SKIP_UNDO_RELEASE_KEYS_AND_LICENSE
 ECHO.
 ECHO :: ===============================================================
 ECHO :: GIT CHECKOUT ALL - (UNDO KEYS AND LICENSE FILES)
@@ -229,6 +234,7 @@ CD %ei7%
 git checkout -- *
 git status
 @ECHO OFF
+:SKIP_UNDO_RELEASE_KEYS_AND_LICENSE
 IF NOT %QUIET%==TRUE PAUSE
 
 ECHO.
@@ -302,6 +308,11 @@ ECHO :: HELP
 ECHO :: ===============================================================
 ECHO.
 ECHO Q   Quiet mode
+ECHO K   Keep release keys
+ECHO. 
+ECHO To build a release version Epi Info 7 run the following: (requires Visual Studio and a private folder)
+ECHO (.\epiinfo) epi-info-scorched-earth-build.bat [Q] [QK] [K] [/?]
+ECHO .
 GOTO :EOF
 
 :EOF

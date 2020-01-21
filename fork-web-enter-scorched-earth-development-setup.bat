@@ -62,7 +62,7 @@ IF /I "%o%" EQU "N" GOTO :SKIP_GET_SOURCE
 GOTO :ASK_GET_SOURCE
 :GET_SOURCE
 @ECHO ON
-git clone https://github.com/Epi-Info/Epi-Info-Cloud-Data-Capture.git
+git clone https://github.com/cdc-dpbrown/Epi-Info-Cloud-Data-Capture.git
 @ECHO OFF
 ::CD %webEnter%
 ::git reset --hard ba6476afb4d300614ac58c66ec84dc91d83bda74
