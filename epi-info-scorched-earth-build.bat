@@ -10,7 +10,7 @@ ECHO.
 SETLOCAL ENABLEDELAYEDEXPANSION
 SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe"
 SET batchRootDirectory=%CD%
-SET requiredFilesDirectory="C:\EpiInfo7ReleaseBuildFiles"
+SET requiredFilesDirectory=C:\EpiInfo7ReleaseBuildFiles
 SET ei7=%batchRootDirectory%\Epi-Info-Community-Edition
 SET KEY_QUIET=Q
 SET KEEP_KEEP_RELEASE_KEYS=K

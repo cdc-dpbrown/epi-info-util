@@ -8,6 +8,7 @@ ECHO :: ===============================================================
 SETLOCAL ENABLEDELAYEDEXPANSION
 SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe"
 SET batchRootDirectory=%CD%
+SET private-build-files="C:\epi-info-private-build-files\cloud-data-capture"
 SET webEnter=%batchRootDirectory%\Epi-Info-Cloud-Data-Capture
 SET KEY_QUIET=Q
 SET KEY_HELP=/?
@@ -69,6 +70,19 @@ git clone https://github.com/Epi-Info/Epi-Info-Cloud-Data-Capture.git
 ::git reset --hard ba6476afb4d300614ac58c66ec84dc91d83bda74
 :SKIP_GET_SOURCE
 :: ===============================================================
+@ECHO ON
+ECHO.
+ECHO :: ===============================================================
+ECHO :: COPY WEB.CONFIG
+ECHO :: ===============================================================
+ECHO.
+ECHO %private-build-files%\Web.Config
+COPY /Y %private-build-files%\Web.Config %webEnter%\Web.Config
+IF %QUIET%==TRUE GOTO:SKIP_VERIFY_KEYS_COPY
+::ECHO OPEN IN CODE TO VERIFY THE COMPONENT LICENSE HAS CHANGED
+::CALL code -n %ei7%
+PAUSE
+:SKIP_VERIFY_KEYS_COPY
 
 ECHO :: ===============================================================
 ECHO :: OPEN WINDOWS EXPLORER IN WEB SURVEY DIRECTORY
@@ -84,7 +98,7 @@ ECHO :: ===============================================================
 @ECHO ON
 CD %batchRootDirectory%
 
-GOTO :EOF
+::GOTO :EOF
 
 CALL nuget restore %webEnter%"\Epi Info Web Enter.sln"
 CD %webEnter%
