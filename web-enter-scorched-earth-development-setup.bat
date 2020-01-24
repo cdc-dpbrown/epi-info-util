@@ -77,7 +77,7 @@ ECHO :: COPY WEB.CONFIG
 ECHO :: ===============================================================
 ECHO.
 ECHO %private-build-files%\Web.Config
-COPY /Y %private-build-files%\Web.Config %webEnter%\Web.Config
+COPY /Y %private-build-files%\Web.Config %webEnter%\Epi.Web\Web.Config
 IF %QUIET%==TRUE GOTO:SKIP_VERIFY_KEYS_COPY
 ::ECHO OPEN IN CODE TO VERIFY THE COMPONENT LICENSE HAS CHANGED
 ::CALL code -n %ei7%
