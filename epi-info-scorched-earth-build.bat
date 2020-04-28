@@ -248,6 +248,15 @@ RMDIR /S /Q  %ei7%\Build\release\Logs
 RMDIR /S /Q  %ei7%\Build\release\TestCases
 RMDIR /S /Q  %ei7%\Build\release\Templates\Projects
 RMDIR /S /Q  %ei7%\Build\release\Projects
+RMDIR /S /Q  %ei7%\Build\release\de
+RMDIR /S /Q  %ei7%\Build\release\es
+RMDIR /S /Q  %ei7%\Build\release\fr
+RMDIR /S /Q  %ei7%\Build\release\it
+RMDIR /S /Q  %ei7%\Build\release\ja
+RMDIR /S /Q  %ei7%\Build\release\ko
+RMDIR /S /Q  %ei7%\Build\release\ru
+RMDIR /S /Q  %ei7%\Build\release\zh-Hans
+RMDIR /S /Q  %ei7%\Build\release\zh-Hant
 XCOPY %requiredFilesDirectory%\projectsRelease\Projects %ei7%\build\release\Projects /I /E /Q
 DEL /Q %ei7%\Build\release\Output\*.html
 DEL /Q %ei7%\Build\release\*.pdb
@@ -290,6 +299,18 @@ ECHO :: ===============================================================
 @ECHO ON
 EXPLORER %ei7%\build
 @ECHO OFF
+
+
+ECHO.
+ECHO :: ===============================================================
+ECHO :: OPEN WINDOWS EXPLORER IN BUILD DIRECTORY
+ECHO :: ===============================================================
+@ECHO ON
+DEL commitReport.code
+git.exe log -100 --pretty=format:%%s > commitReport.code
+START commitReport.code
+@ECHO OFF
+
 
 ECHO.
 ECHO :: ===============================================================
