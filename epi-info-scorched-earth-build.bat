@@ -92,18 +92,18 @@ ECHO :: ===============================================================
 ECHO .
 ECHO :: SolutionInfo.cs
 ECHO :: [assembly: AssemblyVersion("7.2.*")]
-ECHO :: [assembly: AssemblyFileVersion("7.2.3.V")]
-ECHO :: [assembly: AssemblyInformationalVersion("7.2.3.V")]
+ECHO :: [assembly: AssemblyFileVersion("7.2.4.V")]
+ECHO :: [assembly: AssemblyInformationalVersion("7.2.4.V")]
 ECHO :: [assembly: SatelliteContractVersion("7.0.0.0")]
 ECHO :: [assembly: Epi.AssemblyReleaseDateAttribute("MM/DD/YYYY")]
 ECHO .
 ECHO :: AssemblyInfo.cs
-ECHO :: [assembly: AssemblyVersion("7.2.3.V")]
-ECHO :: [assembly: AssemblyFileVersion("7.2.3.V")]
+ECHO :: [assembly: AssemblyVersion("7.2.4.V")]
+ECHO :: [assembly: AssemblyFileVersion("7.2.4.V")]
 ECHO .
 ECHO :: AssemblyInfo.vb
-ECHO :: Assembly: AssemblyVersion("7.2.3.V")
-ECHO :: Assembly: AssemblyFileVersion("7.2.3.V")
+ECHO :: Assembly: AssemblyVersion("7.2.4.V")
+ECHO :: Assembly: AssemblyFileVersion("7.2.4.V")
 ECHO .
 ECHO An instance of Visual Studio Code will open and you can make the changes there.
 ECHO .
@@ -120,14 +120,14 @@ CHDIR
 ECHO.
 ECHO :: ===============================================================
 ECHO :: UPDATE VERSION
-ECHO :: [BUILD] 7.2.3.V M/D/20YY 
+ECHO :: [BUILD] 7.2.4.V M/D/20YY 
 ECHO :: ===============================================================
 ECHO .
 SET /P V=Minor Version(V): 
 SET /P M=Month(M): 
 SET /P D=Date(D): 
 SET /P Y=Year(YY):
-SET commit_message=[BUILD] 7.2.3.%V% %M%/%D%/20%Y%
+SET commit_message=[BUILD] 7.2.4.%V% %M%/%D%/20%Y%
 ECHO %commit_message%
 ECHO .
 @ECHO ON
@@ -317,7 +317,7 @@ ECHO :: ===============================================================
 ECHO :: THE FOLLOWING CAN BE COPIED AND USED TO HELP RENAME THE ZIP
 ECHO :: ZIP [ Epi Info 7 ] AND [ Launch Epi Info 7.exe ]
 ECHO :: ===============================================================
-ECHO %YYYY%.%MM%.%DD% Epi Info 7.2.3. (dual keys)(en-US,es-ES, fr-FR)
+ECHO %YYYY%.%MM%.%DD% Epi Info 7.2.4. (dual keys)(en-US,es-ES, fr-FR)
 
 ENDLOCAL
 GOTO :EOF
