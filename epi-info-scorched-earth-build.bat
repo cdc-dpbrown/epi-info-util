@@ -8,7 +8,8 @@ ECHO :: SET LOCAL VARIABLES
 ECHO :: ===============================================================
 ECHO.
 SETLOCAL ENABLEDELAYEDEXPANSION
-SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe"
+:: Use \Bin\MSBuild.exe, which can be run on 64-bit machine and as x86 on a 32-bit.
+SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe"
 SET batchRootDirectory=%CD%
 SET requiredFilesDirectory=C:\EpiInfo7ReleaseBuildFiles
 SET ei7=%batchRootDirectory%\Epi-Info-Community-Edition
@@ -308,7 +309,7 @@ ECHO :: ===============================================================
 @ECHO ON
 DEL commitReport.code
 git.exe log -100 --pretty=format:%%s > commitReport.code
-START commitReport.code
+code commitReport.code
 @ECHO OFF
 
 
