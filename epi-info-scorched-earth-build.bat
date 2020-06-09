@@ -240,10 +240,16 @@ IF NOT %QUIET%==TRUE PAUSE
 
 ECHO.
 ECHO :: ===============================================================
-ECHO :: COPY PROJECTS
+ECHO :: COPY PROJECTS (NOT NEEDED IF BUILD CONFIG RIGHT)
 ECHO :: ===============================================================
 @ECHO ON
-:: XCOPY %requiredFilesDirectory%\projectsRelease\Projects %ei7%\build\release\Projects /I /E /Q
+::XCOPY %ei7%\Epi.Core\Projects %ei7%\build\release\Projects /I /S /V /F /Y
+::
+:: /S   Copies directories and subdirectories except empty ones.
+:: /V   Verifies the size of each new file.
+:: /I   If destination does not exist and copying more than one file,
+::      assumes that destination must be a directory.
+::
 @ECHO OFF
 
 ECHO.
@@ -256,7 +262,6 @@ RMDIR /S /Q  %ei7%\Build\release\Configuration
 RMDIR /S /Q  %ei7%\Build\release\Logs
 RMDIR /S /Q  %ei7%\Build\release\TestCases
 RMDIR /S /Q  %ei7%\Build\release\Templates\Projects
-RMDIR /S /Q  %ei7%\Build\release\Projects
 RMDIR /S /Q  %ei7%\Build\release\de
 RMDIR /S /Q  %ei7%\Build\release\es
 RMDIR /S /Q  %ei7%\Build\release\fr
