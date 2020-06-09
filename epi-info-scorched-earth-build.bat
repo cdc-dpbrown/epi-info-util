@@ -240,7 +240,15 @@ IF NOT %QUIET%==TRUE PAUSE
 
 ECHO.
 ECHO :: ===============================================================
-ECHO :: PRUNE FILES RENAME AND ZIP
+ECHO :: COPY PROJECTS
+ECHO :: ===============================================================
+@ECHO ON
+:: XCOPY %requiredFilesDirectory%\projectsRelease\Projects %ei7%\build\release\Projects /I /E /Q
+@ECHO OFF
+
+ECHO.
+ECHO :: ===============================================================
+ECHO :: PRUNE FILES
 ECHO :: ===============================================================
 @ECHO ON
 RMDIR /S /Q  %ei7%\Build\release\app.publish
@@ -258,7 +266,6 @@ RMDIR /S /Q  %ei7%\Build\release\ko
 RMDIR /S /Q  %ei7%\Build\release\ru
 RMDIR /S /Q  %ei7%\Build\release\zh-Hans
 RMDIR /S /Q  %ei7%\Build\release\zh-Hant
-XCOPY %requiredFilesDirectory%\projectsRelease\Projects %ei7%\build\release\Projects /I /E /Q
 DEL /Q %ei7%\Build\release\Output\*.html
 DEL /Q %ei7%\Build\release\*.pdb
 @ECHO OFF
