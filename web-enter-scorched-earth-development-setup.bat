@@ -6,7 +6,7 @@ ECHO :: ===============================================================
 ECHO :: SET LOCAL VARIABLES
 ECHO :: ===============================================================
 SETLOCAL ENABLEDELAYEDEXPANSION
-SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe"
+SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe"
 SET batchRootDirectory=%CD%
 SET private-build-files="C:\epi-info-private-build-files\cloud-data-capture"
 SET webEnter=%batchRootDirectory%\Epi-Info-Cloud-Data-Capture
@@ -103,7 +103,7 @@ CD %batchRootDirectory%
 CALL nuget restore %webEnter%"\Epi Info Web Enter.sln"
 CD %webEnter%
 CALL %buildEXE% "Epi Info Web Enter.sln" -t:restore 
-"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" "Epi Info Web Enter.sln"
+%buildEXE% "Epi Info Web Enter.sln"
 @ECHO OFF
 :: ===============================================================
 

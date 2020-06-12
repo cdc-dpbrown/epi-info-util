@@ -6,6 +6,7 @@ ECHO :: ===============================================================
 ECHO :: SET LOCAL VARIABLES
 ECHO :: ===============================================================
 SETLOCAL ENABLEDELAYEDEXPANSION
+SET buildEXE="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe"
 SET batchRootDirectory=%CD%
 SET webSurvey=%batchRootDirectory%\Epi-Info-Web-Survey
 SET KEY_QUIET=Q
@@ -80,8 +81,16 @@ ECHO :: ===============================================================
 ECHO :: OPEN SOLUTION IN VISUAL STUDIO
 ECHO :: ===============================================================
 @ECHO ON
+ECHO.
+CD %batchRootDirectory%
+CALL nuget restore %webSurvey%"\Epi Info Web Survey.sln"
+ECHO.
+ECHO.
+ECHO     [ STARTING BUILD ] PLEASE WAIT ... ( ~30 SECONDS )
+ECHO.
+ECHO.
 CD %webSurvey%
-"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe" "Epi Info Web Survey.sln"
+CALL %buildEXE% "Epi Info Web Survey.sln" /m /p:Configuration=Release /p:Platform=x86 /clp:Summary=true;ErrorsOnly
 @ECHO OFF
 :: ===============================================================
 
