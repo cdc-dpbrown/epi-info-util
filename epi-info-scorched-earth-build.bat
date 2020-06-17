@@ -316,7 +316,7 @@ EXPLORER %ei7%\build
 
 ECHO.
 ECHO :: ===============================================================
-ECHO :: OPEN WINDOWS EXPLORER IN BUILD DIRECTORY
+ECHO :: WRITE COMMIT REPORT AND VIEW IN CODE
 ECHO :: ===============================================================
 @ECHO ON
 DEL commitReport.code
