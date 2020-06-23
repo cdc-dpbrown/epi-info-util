@@ -1,5 +1,5 @@
 CLS
-@ECHO OFF
+::@ECHO OFF
 COLOR 0A
 
 ECHO.

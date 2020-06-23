@@ -39,13 +39,12 @@ IF /I "%d%" EQU "N" GOTO :SKIP_DELETE
 GOTO :ASK_SKIP_DELETE
 :DELETEEPIINFOFOLDER
 
-IF EXIST  %webEnterMergePath% (
-    ECHO.
+IF EXIST  "%webEnterMergePath%" (
     ECHO Deleting %webEnterMergePath% directory
 ) 
 
-IF EXIST  %webEnterMergePath% (
-    RMDIR /S /Q  %webEnterMergePath%
+IF EXIST "%webEnterMergePath%" (
+    RMDIR /S /Q "%webEnterMergePath%"
 )
 
 IF EXIST  %webEnterMergePath% (
@@ -71,7 +70,7 @@ IF /I "%o%" EQU "N" GOTO :SKIP_GET_SOURCE
 GOTO :ASK_GET_SOURCE
 :GET_SOURCE
 @ECHO ON
-git clone https://github.com/Epi-Info/Epi-Info-Cloud-Data-Capture.git
+git clone https://github.com/Epi-Info/Epi-Info-Cloud-Data-Capture.git Epi-Info-Web-Enter-Merge
 @ECHO OFF
 ::CD  webEnterMergePath%
 ::git reset --hard c5baca6a6c08f2168bc28d00f7db0e2ce104fd24
@@ -86,22 +85,48 @@ ECHO :: ===============================================================
 XCOPY %webSurvey% %webEnterMergePath% /I /E /Q
 @ECHO OFF
 
-GIT DIFF
+
+CALL code -n %webEnterMergePath%
 
 
-
+GOTO :EOF
 
 
 
 
 
 ECHO :: ===============================================================
-ECHO :: OPEN WINDOWS EXPLORER IN WEB SURVEY DIRECTORY
+ECHO :: CALL GIT DIFF
 ECHO :: ===============================================================
 @ECHO ON
-::EXPLORER  webEnterMergePath%
+CD "%webEnterMergePath%"
+CALL git diff
 @ECHO OFF
-:: ===============================================================
+
+
+
+
+
+
+
+
+ECHO :: ===============================================================
+ECHO :: OPEN WINDOWS EXPLORER
+ECHO :: ===============================================================
+@ECHO ON
+EXPLORER  %webEnterMergePath%
+@ECHO OFF
+
+
+GOTO :EOF
+
+
+
+
+
+
+
+
 
 ECHO.
 ECHO :: ===============================================================
