@@ -77,12 +77,28 @@ git clone https://github.com/Epi-Info/Epi-Info-Cloud-Data-Capture.git Epi-Info-W
 :SKIP_GET_SOURCE
 
 
-
 ECHO :: ===============================================================
 ECHO :: COPY WEB SURVEY FILES TO WEB ENTER FOLDER
 ECHO :: ===============================================================
 @ECHO ON
-XCOPY %webSurvey% %webEnterMergePath% /I /E /Q
+XCOPY %webSurvey%\docs\* %webEnterMergePath%\docs /I /E /Y
+XCOPY %webSurvey%\EIWS_BLL_Core\* %webEnterMergePath%\EIWS_BLL_Core /I /E /Y
+XCOPY %webSurvey%\Epi.DynamicForms.Core\* %webEnterMergePath%\Epi.DynamicForms.Core /I /E /Y
+XCOPY %webSurvey%\Epi.Web\* %webEnterMergePath%\Epi.Web /I /E /Y
+XCOPY %webSurvey%\Epi.Web.CheckCodeEngine\* %webEnterMergePath%\Epi.Web.CheckCodeEngine /I /E /Y
+XCOPY %webSurvey%\Epi.Web.Common\* %webEnterMergePath%\Epi.Web.Common /I /E /Y
+XCOPY %webSurvey%\Epi.Web.EF\* %webEnterMergePath%\Epi.Web.EF /I /E /Y
+XCOPY %webSurvey%\Epi.Web.Interfaces\* %webEnterMergePath%\Epi.Web.Interfaces /I /E /Y
+XCOPY %webSurvey%\Epi.Web.Modeling\* %webEnterMergePath%\Epi.Web.Modeling /I /E /Y
+XCOPY %webSurvey%\Epi.Web.ServiceHost\* %webEnterMergePath%\Epi.Web.ServiceHost /I /E /Y
+XCOPY %webSurvey%\Epi.Web.SurveyManager.Test\* %webEnterMergePath%\Epi.Web.SurveyManager.Test /I /E /Y
+XCOPY %webSurvey%\Epi.Web.SurveyManager_Test\* %webEnterMergePath%\Epi.Web.SurveyManager_Test /I /E /Y
+XCOPY %webSurvey%\Epi.Web.Test\* %webEnterMergePath%\Epi.Web.Test /I /E /Y
+XCOPY %webSurvey%\Epi.Web.WCF.PublishServer\* %webEnterMergePath%\Epi.Web.WCF.PublishServer /I /E /Y
+XCOPY %webSurvey%\packages\* %webEnterMergePath%\packages /I /E /Y
+XCOPY %webSurvey%\SurveyManagerInterface\* %webEnterMergePath%\SurveyManagerInterface /I /E /Y
+COPY %webSurvey%\"Epi Info Web Survey.sln" %webEnterMergePath%\"Epi Info Web Survey.sln" /I /E /Y
+COPY %webSurvey%\"Epi Info Web Survey.vssscc" %webEnterMergePath%\"Epi Info Web Survey.vssscc" /I /E /Y
 @ECHO OFF
 
 
